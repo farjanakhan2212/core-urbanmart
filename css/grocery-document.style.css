@@ -1,0 +1,556 @@
+/* ============================================================
+   UrbanMart Grocery - Premium POS/ERP documents
+   Shared styles for Invoice & Money Receipt (loaded via css.php)
+   Scoped under .gdoc-* to avoid collisions.
+   ============================================================ */
+
+.gdoc-screen {
+  min-height: 100%;
+  background: #eef2f7;
+}
+
+/* ---------- Screen toolbar (hidden on print) ---------- */
+.gdoc-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+}
+
+.gdoc-toolbar .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  min-height: 38px;
+}
+
+/* ---------- A4 sheet ---------- */
+.gdoc-sheet {
+  --gdoc-ink: #1f2a37;
+  --gdoc-muted: #64748b;
+  --gdoc-faint: #94a3b8;
+  --gdoc-line: #e5e9ef;
+  --gdoc-soft: #f7f9fb;
+  --gdoc-accent: #0f7a4d;
+  --gdoc-accent-soft: #e9f5ef;
+  --gdoc-accent-ink: #0b5c3a;
+
+  font-family: "Nunito", -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--gdoc-ink);
+  background: #ffffff;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2.25rem 2.5rem 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.55rem 1.6rem rgba(23, 37, 56, 0.1);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.gdoc-sheet h1,
+.gdoc-sheet h2,
+.gdoc-sheet h3,
+.gdoc-sheet h4,
+.gdoc-sheet h5 {
+  color: var(--gdoc-ink);
+}
+
+/* ---------- Header ---------- */
+.gdoc-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 2px solid var(--gdoc-soft);
+}
+
+.gdoc-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+}
+
+.gdoc-brand-logo {
+  width: 54px;
+  height: 54px;
+  border-radius: 0.5rem;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.gdoc-brand-name {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 1.15;
+}
+
+.gdoc-brand-tagline {
+  font-size: 0.72rem;
+  color: var(--gdoc-muted);
+  margin-top: 0.15rem;
+}
+
+.gdoc-headlines {
+  text-align: right;
+  min-width: 0;
+}
+
+.gdoc-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gdoc-accent-ink);
+  line-height: 1.1;
+}
+
+.gdoc-title-rule {
+  height: 3px;
+  width: 100%;
+  max-width: 160px;
+  margin: 0.4rem 0 0.4rem auto;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--gdoc-accent), #4ade80);
+}
+
+.gdoc-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.35rem 1rem;
+  font-size: 0.82rem;
+}
+
+.gdoc-meta .gdoc-mlabel {
+  color: var(--gdoc-faint);
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-right: 0.35rem;
+}
+
+.gdoc-meta .gdoc-mvalue {
+  font-weight: 700;
+  color: var(--gdoc-ink);
+}
+
+.gdoc-meta.gdoc-meta-left {
+  justify-content: flex-start;
+}
+
+/* ---------- Status badge ---------- */
+.gdoc-badge {
+  display: inline-block;
+  padding: 0.28em 0.75em;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+.gdoc-badge.bad-paid    { color: #0b5c3a; background: #dcfce7; }
+.gdoc-badge.bad-partial { color: #92400e; background: #fef3c7; }
+.gdoc-badge.bad-unpaid  { color: #b91c1c; background: #fee2e2; }
+
+/* ---------- Party boxes (FROM / BILL TO) ---------- */
+.gdoc-parties {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem;
+  margin: 1.35rem 0 0;
+}
+
+.gdoc-box {
+  border: 1px solid var(--gdoc-line);
+  border-radius: 0.45rem;
+  background: var(--gdoc-soft);
+  padding: 0.8rem 0.95rem;
+  min-width: 0;
+}
+
+.gdoc-box-label {
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--gdoc-faint);
+  margin-bottom: 0.4rem;
+}
+
+.gdoc-box-name {
+  font-weight: 800;
+  color: var(--gdoc-ink);
+  margin-bottom: 0.15rem;
+}
+
+.gdoc-box-detail {
+  font-size: 0.84rem;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.gdoc-box-detail .gdoc-dline {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Tables ---------- */
+.gdoc-table-wrap {
+  overflow-x: auto;
+  margin: 1.35rem 0 0.9rem;
+}
+
+.gdoc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.gdoc-table thead th {
+  background: var(--gdoc-accent-soft);
+  color: var(--gdoc-accent-ink);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.6rem 0.7rem;
+  text-align: left;
+  border-bottom: 2px solid #cfebdd;
+  white-space: nowrap;
+}
+
+.gdoc-table tbody td {
+  padding: 0.62rem 0.7rem;
+  border-bottom: 1px solid var(--gdoc-line);
+  vertical-align: top;
+  color: #334155;
+}
+
+.gdoc-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.gdoc-table .gdoc-item-name {
+  color: var(--gdoc-ink);
+  font-weight: 700;
+}
+
+.gdoc-table .gdoc-item-sku {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--gdoc-faint);
+  font-weight: 500;
+}
+
+.gdoc-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.gdoc-sku-col,
+.gdoc-th {
+  text-align: right;
+}
+
+/* ---------- Totals panel ---------- */
+.gdoc-totals-row {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0.35rem 0 0;
+}
+
+.gdoc-totals {
+  width: 100%;
+  max-width: 320px;
+  font-size: 0.85rem;
+}
+
+.gdoc-totals tbody td {
+  padding: 0.42rem 0.7rem;
+  border-bottom: 1px dashed var(--gdoc-line);
+  color: #334155;
+}
+
+.gdoc-totals .gdoc-t-label {
+  text-align: right;
+  color: var(--gdoc-muted);
+  font-weight: 600;
+}
+
+.gdoc-totals .gdoc-t-value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--gdoc-ink);
+  white-space: nowrap;
+}
+
+.gdoc-totals .gdoc-t-total td {
+  border-bottom: 0;
+  border-top: 2px solid var(--gdoc-accent);
+  background: var(--gdoc-accent-soft);
+  color: var(--gdoc-accent-ink);
+  font-size: 1.02rem;
+  font-weight: 800;
+}
+
+.gdoc-totals .gdoc-t-total .gdoc-t-label {
+  color: var(--gdoc-accent-ink);
+}
+
+/* ---------- Payment / notes rows ---------- */
+.gdoc-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem;
+  margin-top: 1.1rem;
+}
+
+.gdoc-block {
+  border: 1px solid var(--gdoc-line);
+  border-radius: 0.45rem;
+  padding: 0.8rem 0.95rem;
+}
+
+.gdoc-block-title {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--gdoc-faint);
+  margin-bottom: 0.5rem;
+}
+
+.gdoc-kv {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.15rem 0.5rem;
+  font-size: 0.85rem;
+  padding: 0.2rem 0;
+}
+
+.gdoc-kv .gdoc-k {
+  color: var(--gdoc-muted);
+  font-weight: 600;
+  min-width: 108px;
+}
+
+.gdoc-kv .gdoc-v {
+  font-weight: 700;
+  color: var(--gdoc-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.gdoc-note {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 0.45rem;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.84rem;
+  color: #78350f;
+  line-height: 1.5;
+}
+
+/* ---------- Money Receipt: payment hero ---------- */
+.gdoc-receipt-box {
+  margin: 1.4rem 0 0;
+  background: var(--gdoc-accent-soft);
+  border: 1px solid #cfebdd;
+  border-left: 5px solid var(--gdoc-accent);
+  border-radius: 0.45rem;
+  padding: 1.05rem 1.15rem;
+}
+
+.gdoc-received-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gdoc-accent-ink);
+}
+
+.gdoc-received-name {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--gdoc-ink);
+  line-height: 1.2;
+  margin-top: 0.2rem;
+}
+
+.gdoc-amount-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.gdoc-amount-label {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gdoc-accent-ink);
+}
+
+.gdoc-amount-hero {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--gdoc-accent-ink);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+}
+
+.gdoc-amount-words {
+  font-size: 0.78rem;
+  color: #475569;
+  font-weight: 600;
+  font-style: italic;
+  max-width: 56%;
+}
+
+/* ---------- Signatures ---------- */
+.gdoc-sign {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 2.6rem;
+}
+
+.gdoc-sign-item {
+  text-align: center;
+}
+
+.gdoc-sign-line {
+  border-top: 1px dashed var(--gdoc-faint);
+  padding-top: 0.5rem;
+  font-size: 0.78rem;
+  color: #475569;
+  font-weight: 700;
+}
+
+.gdoc-sign-cap {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gdoc-faint);
+  font-weight: 700;
+  margin-top: 0.15rem;
+}
+
+/* ---------- Footer ---------- */
+.gdoc-footer {
+  margin-top: 1.6rem;
+  border-top: 1px solid var(--gdoc-line);
+  padding-top: 0.8rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--gdoc-muted);
+}
+
+.gdoc-footer .gdoc-thanks {
+  font-weight: 800;
+  color: var(--gdoc-accent-ink);
+  margin-bottom: 0.2rem;
+}
+
+.gdoc-footer-contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 1.1rem;
+}
+
+.gdoc-footer .gdoc-fsep {
+  color: var(--gdoc-line);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 767.98px) {
+  .gdoc-sheet { padding: 1.4rem 1.1rem; max-width: 100%; }
+  .gdoc-head { flex-direction: column; }
+  .gdoc-headlines { text-align: left; width: 100%; }
+  .gdoc-title-rule { margin-left: 0; margin-right: auto; }
+  .gdoc-meta { justify-content: flex-start; }
+  .gdoc-parties,
+  .gdoc-grid-2,
+  .gdoc-sign { grid-template-columns: 1fr; }
+  .gdoc-receipt-box { flex-wrap: wrap; }
+  .gdoc-amount-block { align-items: flex-start; text-align: left; }
+  .gdoc-amount-words { max-width: 100%; }
+  .gdoc-amount-hero { font-size: 1.75rem; }
+  .gdoc-totals { max-width: 100%; }
+}
+
+/* ---------- Print ---------- */
+@media print {
+  @page { size: A4 portrait; margin: 10mm; }
+
+  body { background: #ffffff !important; }
+
+  .topbar,
+  .sidebar,
+  .sidebar.sidebar-dark,
+  #sidebarToggle,
+  .gdoc-toolbar,
+  .alert,
+  .scroll-to-top,
+  .card {
+    display: none !important;
+  }
+
+  #content-wrapper,
+  #content,
+  #content .container-fluid,
+  #content > .container-fluid {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .gdoc-screen {
+    background: #ffffff !important;
+    padding: 0 !important;
+  }
+
+  .gdoc-sheet {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .gdoc-table thead th,
+  .gdoc-totals .gdoc-t-total td,
+  .gdoc-receipt-box {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .gdoc-table tr,
+  .gdoc-block,
+  .gdoc-receipt-box,
+  .gdoc-sign-item,
+  .gdoc-totals-row {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .gdoc-head { border-bottom: 2px solid #000000; }
+}

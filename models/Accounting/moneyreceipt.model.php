@@ -29,9 +29,36 @@ class MoneyReceipt implements JsonSerializable{
 	}
 	public static function delete($id){
 		global $db,$tx;
-		$db->query("delete from {$tx}money_receipts where id={$id}");
+		$id=(int)$id;
+		if($id<=0) return false;
+
+		$check=$db->prepare("select id from {$tx}money_receipts where id=? limit 1");
+		$check->bind_param("i",$id);
+		$check->execute();
+		$found=$check->get_result()->fetch_row();
+		$check->close();
+		if(!$found) return false;
+
+		$db->begin_transaction();
+		try {
+			$details=$db->prepare("delete from {$tx}money_receipt_details where money_receipt_id=?");
+			$details->bind_param("i",$id);
+			$details->execute();
+			$details->close();
+
+			$header=$db->prepare("delete from {$tx}money_receipts where id=?");
+			$header->bind_param("i",$id);
+			$header->execute();
+			$header->close();
+
+			$db->commit();
+			return true;
+		} catch (\Throwable $e) {
+			$db->rollback();
+			return false;
+		}
 	}
-	public function jsonSerialize(){
+	public function jsonSerialize(): mixed {
 		return get_object_vars($this);
 	}
 	public static function all(){
@@ -113,10 +140,13 @@ class MoneyReceipt implements JsonSerializable{
 		while($moneyreceipt=$result->fetch_object()){
 			$action_buttons = "";
 			if($action){
-				$action_buttons = "<td><div class='clearfix' style='display:flex;'>";
-				$action_buttons.= action_button(["id"=>$moneyreceipt->id, "name"=>"Details", "value"=>"Show", "class"=>"info", "url"=>"moneyreceipt/show/$moneyreceipt->id"]);
-				$action_buttons.= action_button(["id"=>$moneyreceipt->id, "name"=>"Edit", "value"=>"Edit", "class"=>"primary", "url"=>"moneyreceipt/edit/$moneyreceipt->id"]);
-				$action_buttons.= action_button(["id"=>$moneyreceipt->id, "name"=>"Delete", "value"=>"Delete", "class"=>"danger", "url"=>"moneyreceipt/confirm/$moneyreceipt->id"]);
+				$action_buttons = "<td><div class='btn-group' style='display:flex;flex-wrap:wrap;gap:3px;'>";
+				$action_buttons.= Event::button(["name"=>"show", "value"=>"View", "class"=>"btn btn-info btn-sm", "route"=>"moneyreceipt/show/$moneyreceipt->id"]);
+				$action_buttons.= Event::button(["name"=>"print", "value"=>"Print", "class"=>"btn btn-secondary btn-sm", "route"=>"moneyreceipt/print/$moneyreceipt->id"]);
+				$action_buttons.= Event::button(["name"=>"pdf", "value"=>"PDF", "class"=>"btn btn-dark btn-sm", "route"=>"moneyreceipt/pdf/$moneyreceipt->id"]);
+				$action_buttons.= Event::button(["name"=>"download", "value"=>"Download", "class"=>"btn btn-success btn-sm", "route"=>"moneyreceipt/download/$moneyreceipt->id"]);
+				$action_buttons.= Event::button(["name"=>"edit", "value"=>"Edit", "class"=>"btn btn-primary btn-sm", "route"=>"moneyreceipt/edit/$moneyreceipt->id"]);
+				$action_buttons.= Event::button(["name"=>"delete", "value"=>"Delete", "class"=>"btn btn-danger btn-sm", "route"=>"moneyreceipt/confirm/$moneyreceipt->id"]);
 				$action_buttons.= "</div></td>";
 			}
 			$html.="<tr><td>$moneyreceipt->id</td><td>$moneyreceipt->created_at</td><td>$moneyreceipt->updated_at</td><td>$moneyreceipt->customer_id</td><td>$moneyreceipt->remark</td><td>$moneyreceipt->receipt_total</td> $action_buttons</tr>";

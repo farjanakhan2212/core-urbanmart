@@ -1,11 +1,20 @@
-<div class='form-group row'>   
+<?php
+$arg['label'] = isset($arg['label']) ? $arg['label'] : '';
+$arg['name'] = isset($arg['name']) ? $arg['name'] : '';
+$arg['class'] = isset($arg['class']) ? $arg['class'] : 'form-control-file';
+$arg['value'] = isset($arg['value']) ? $arg['value'] : '';
+$arg['placeholder'] = isset($arg['placeholder']) ? $arg['placeholder'] : '';
+$arg['required'] = isset($arg['required']) ? $arg['required'] : '';
+$arg['checked'] = isset($arg['checked']) ? $arg['checked'] : '';
+?>
+<div class='form-group row'>
 <label for='<?=$arg["name"]?>' class='col-sm-2 col-form-label'><?=$arg["label"]?></label>
 <div class='col-sm-10'>
-    <input type='file' class='<?=$arg["class"]?>' name='<?=$arg["name"]?>' id='<?=$arg["name"]?>' value='<?=$arg["value"]?>' placeholder='<?=$arg["placeholder"]?>' <?=$arg["required"]?> <?=$arg["checked"]?>>      
-    <?php         
+    <input type='file' class='<?=$arg["class"]?>' name='<?=$arg["name"]?>' id='<?=$arg["name"]?>' value='<?=$arg["value"]?>' placeholder='<?=$arg["placeholder"]?>' <?=$arg["required"]?> <?=$arg["checked"]?>>
+<?php
     if($arg["value"]!=""){
       echo "<img src='{$base_url}/img/{$arg["value"]}' width='200' />";
-    }    
-    ?>
+    }
+?>
 </div>
 </div>

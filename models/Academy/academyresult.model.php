@@ -33,7 +33,7 @@ class AcademyResult extends Model implements JsonSerializable{
 		global $db,$tx;
 		$db->query("delete from {$tx}academy_results where id={$id}");
 	}
-	public function jsonSerialize(){
+	public function jsonSerialize(): mixed {
 		return get_object_vars($this);
 	}
 	public static function all(){
@@ -70,7 +70,7 @@ class AcademyResult extends Model implements JsonSerializable{
 	public static function filter($student_id,$term_id){
 		global $db,$tx;
 		//Update field name after where keyword if don't have name field
-		$result=$db->query("select r.id,s.name subject,t.name type,mark,fullmark from {$tx}academy_results r,${tx}academy_subjects s,${tx}academy_exam_types t where r.academy_subject_id=s.id and r.academy_exam_type_id=t.id and  academy_student_id='$student_id' and academy_term_id='$term_id' ");
+		$result=$db->query("select r.id,s.name subject,t.name type,mark,fullmark from {$tx}academy_results r,{$tx}academy_subjects s,{$tx}academy_exam_types t where r.academy_subject_id=s.id and r.academy_exam_type_id=t.id and  academy_student_id='$student_id' and academy_term_id='$term_id' ");
 		$data=[];
 		while($academyresult=$result->fetch_object()){
 			$data[]=$academyresult;

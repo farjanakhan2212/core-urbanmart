@@ -22,7 +22,7 @@ Division<br>
         
         $.ajax({
             type:"GET",
-            url:"http://localhost/intellect8/api/district",
+            url:"<?= $base_url ?>/api/district",
             success:function(res){
               let districts=JSON.parse(res).districts;
               //console.log(districts)

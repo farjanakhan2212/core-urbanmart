@@ -17,9 +17,10 @@
     <!-- Main content -->
     <section class="content">     
      <div class="card">
-      				<div class='card-body'>
+       				<div class='card-body'>
 		<?php
-			echo User::get_users();
+			$show0_id = isset($id) ? $id : (isset($_GET['id']) ? $_GET['id'] : 0);
+			echo User::html_row_details($show0_id);
 		?>
 			</div>
     <div class="card-footer">

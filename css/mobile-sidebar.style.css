@@ -1,0 +1,142 @@
+/* ============================================================
+   UrbanMart Grocery - Mobile sidebar drawer
+   Loaded automatically via css.php glob (css/*.style.css)
+   Desktop (>= 769px) behavior is untouched; only mobile rules below.
+   ============================================================ */
+
+/* ---------- Backdrop (injected by js/sidebar.helper.js) ---------- */
+#sidebarBackdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1030;
+  background: rgba(13, 24, 42, 0.55);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (min-width: 769px) {
+  #sidebarBackdrop {
+    display: none !important;
+  }
+}
+
+/* ============================================================
+   MOBILE DRAWER  (width <= 768px)
+   ============================================================ */
+@media (max-width: 768px) {
+  body {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Fixed drawer sliding in from the left, ~260px wide */
+  .sidebar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 260px !important;
+    max-width: 86vw !important;
+    min-height: 100vh;
+    margin: 0 !important;
+    z-index: 1040;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transform: translateX(-100%);
+    box-shadow: none !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform;
+  }
+
+  /* Open state */
+  body.mobile-nav-open .sidebar {
+    transform: translateX(0);
+    box-shadow: 6px 0 26px rgba(13, 24, 42, 0.28) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  /* Backdrop visible only while the drawer is open */
+  body.mobile-nav-open #sidebarBackdrop {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Prevent page scroll + horizontal overflow while open */
+  body.mobile-nav-open,
+  body.mobile-nav-open #content-wrapper {
+    overflow: hidden !important;
+  }
+
+  /* Neutralize any leftover desktop "toggled" (icon-collapse) classes in case
+     the window is resized from desktop into the mobile range. */
+  .sidebar.toggled {
+    width: 260px !important;
+    max-width: 86vw !important;
+    transform: translateX(-100%);
+  }
+  body.mobile-nav-open .sidebar.toggled {
+    transform: translateX(0);
+  }
+  body.sidebar-toggled .sidebar {
+    margin: 0 !important;
+  }
+
+  /* ---------- Hamburger -> close (X) button ---------- */
+  /* Keep the existing #sidebarToggleTop button, float it above the overlay and
+     drawer while open, and morph the icon into a close glyph. */
+  #sidebarToggleTop .fa-bars,
+  #sidebarToggleTop .fa-bars::before {
+    transition: transform 0.3s ease;
+  }
+
+  body.mobile-nav-open #sidebarToggleTop {
+    position: fixed;
+    top: 0.7rem;
+    left: 0.7rem;
+    z-index: 1050;
+    width: 42px;
+    height: 42px;
+    margin: 0;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.16);
+    box-shadow: 0 2px 8px rgba(13, 24, 42, 0.25);
+  }
+
+  body.mobile-nav-open #sidebarToggleTop:hover,
+  body.mobile-nav-open #sidebarToggleTop:focus {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.24);
+  }
+
+  /* fa-bars -> fa-times */
+  body.mobile-nav-open #sidebarToggleTop .fa-bars::before {
+    content: "\f00d";
+  }
+
+  /* Keep the brand row clear of the floating close button */
+  .sidebar .sidebar-brand {
+    padding-left: 4.25rem !important;
+  }
+
+  /* Keep submenu behaviour tidy inside the drawer */
+  .sidebar .nav-item .collapse,
+  .sidebar .nav-item .collapsing {
+    position: relative;
+    left: 0;
+    top: 0;
+  }
+}
+
+/* ============================================================
+   DESKTOP (>= 769px) - explicitly left to the RuangAdmin stylesheet.
+   (No rules here so existing desktop behaviour is preserved.)
+   ============================================================ */

@@ -1,5 +1,5 @@
 <?php
-class UserApi{
+class UserApi extends Api{
 	public function __construct(){
 		if(!$this->authorized()){          
 			http_response_code(401);//Unauthorized
@@ -15,7 +15,7 @@ class UserApi{
 		echo json_encode(["users"=>User::pagination($page,$perpage),"total_records"=>User::count()]);
 	}
 	function search($data){
-		echo json_encode(["users"=>User::filter($data->name)]);
+		echo json_encode(["users"=>User::search($data->name)]);
 	}
 	function find($data){
 		echo json_encode(["user"=>User::find($data->id)]);
@@ -25,44 +25,31 @@ class UserApi{
 		echo json_encode(["success" => "yes"]);
 	}
 	function save($data,$file=[]){
+		global $now;
 		$user=new User();
 		$user->name=$data->name;
-		$user->role_id=$data->role_id;
-		$user->password=$data->password;
 		$user->email=$data->email;
-		$user->full_name=$data->full_name;
-		$user->photo=upload($file["photo"], "../img",$data->name);
-		$user->verify_code=$data->verify_code;
-		$user->inactive=$data->inactive;
-		$user->mobile=$data->mobile;
-		$user->updated_at=$data->updated_at;
-		$user->ip=$data->ip;
-		$user->email_verified_at=$data->email_verified_at;
-		$user->remember_token=$data->remember_token;
+		$user->branch=isset($data->branch)?$data->branch:null;
+		$user->password=password_hash($data->password,PASSWORD_BCRYPT);
+		$user->created_at=$now;
+		$user->updated_at=$now;
 
 		$user->save();
 		echo json_encode(["success" => "yes"]);
 	}
 	function update($data,$file=[]){
+		global $now;
 		$user=new User();
 		$user->id=$data->id;
 		$user->name=$data->name;
-		$user->role_id=$data->role_id;
-		$user->password=$data->password;
 		$user->email=$data->email;
-		$user->full_name=$data->full_name;
-		if(isset($file["photo"]["name"])){
-			$user->photo=upload($file->photo, "../img",$data->name);
+		if(isset($data->password) && $data->password !== ''){
+			$user->password=password_hash($data->password,PASSWORD_BCRYPT);
 		}else{
-			$user->photo=User::find($data->id)->photo;
+			$existing=User::find($data->id);
+			$user->password=$existing?$existing->password:'';
 		}
-		$user->verify_code=$data->verify_code;
-		$user->inactive=$data->inactive;
-		$user->mobile=$data->mobile;
-		$user->updated_at=$data->updated_at;
-		$user->ip=$data->ip;
-		$user->email_verified_at=$data->email_verified_at;
-		$user->remember_token=$data->remember_token;
+		$user->updated_at=$now;
 
 		$user->update();
 		echo json_encode(["success" => "yes"]);

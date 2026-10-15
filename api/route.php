@@ -5,15 +5,9 @@ if(isset($_GET["class"])){
       
     if(class_exists($class)){
   
-        if(!isset($_GET["method"]))
-        {
-          $method="index";
-        }else{
-          $method=$_GET["method"];
-        }      
-  
+        $method = (isset($_GET["method"]) && $_GET["method"] !== '') ? $_GET["method"] : "index";
+
         $obj=new $class();     
-        $method=$_GET["method"];
         $res_method = $_SERVER['REQUEST_METHOD'];
         
   
@@ -35,29 +29,29 @@ if(isset($_GET["class"])){
             }  
              
   
-          }else if($res_method=="GET"){ 
+}else if($res_method=="GET"){ 
            
             //$query_string=$_SERVER['QUERY_STRING'];
                               
             //-----json---
             $jsonRequest=file_get_contents("php://input");
             $params=json_decode($jsonRequest,true); 
-  
+
             //--querystring---
             if($params==null){
               $params=$_GET;
+              unset($params["class"], $params["method"]);
             }
-            
-            //---Body Data---
-            if(count($params)==2) {         
-             _parseGet();              
-             $params=$_GET; 
-             if($params==null){            
-                  http_response_code(400); // Bad Request
-                  echo "Invalid JSON data";
-              }           
+
+          }else if($res_method=="PUT"){ 
+
+            //--querystring---
+            if($params==null){
+              $params=$_GET;
+              unset($params["class"], $params["method"]);
             }
-  
+            echo "//DBG ".json_encode($_GET)." params=".json_encode($params).PHP_EOL;
+
           }else if($res_method=="PUT"){
                       
             $jsonRequest=file_get_contents("php://input");
@@ -109,16 +103,18 @@ if(isset($_GET["class"])){
            $obj_params=json_decode(json_encode($params),FALSE);
            
            call_user_func_array(array($obj,$method),[$obj_params]);
-       }else{
-         //echo "Method $method is not exists";
-         if(isset($_FILES)){
-          $params["file"]=$_FILES;
-         }
+}else{
+          //echo "Method $method is not exists";
+          $params = $_GET;
+          unset($params["class"], $params["method"]);
+          if(isset($_FILES)){
+           $params["file"]=$_FILES;
+          }
 
          $obj_params=json_decode(json_encode($params),FALSE);
-         
+          
          call_user_func_array(array($obj,"index"),[$obj_params]);
-       } 
+        }
         
   
     }else{

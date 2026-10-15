@@ -45,7 +45,7 @@ class Order implements JsonSerializable{
 		global $db,$tx;
 		$db->query("delete from {$tx}orders where id={$id}");
 	}
-	public function jsonSerialize(){
+	public function jsonSerialize(): mixed {
 		return get_object_vars($this);
 	}
 	public static function all(){

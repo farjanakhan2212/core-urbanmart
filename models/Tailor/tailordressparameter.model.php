@@ -27,7 +27,7 @@ class TailorDressParameter implements JsonSerializable{
 		global $db,$tx;
 		$db->query("delete from {$tx}tailor_dress_parameters where id={$id}");
 	}
-	public function jsonSerialize(){
+	public function jsonSerialize(): mixed {
 		return get_object_vars($this);
 	}
 	public static function all(){

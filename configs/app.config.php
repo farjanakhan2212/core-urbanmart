@@ -1,8 +1,8 @@
 <?php 
-$sector="retail";//academy,hospital,retail,ecommerce,restaurant,hotel,garments,agro
-$app_name="POS ERP";
-$base_url="/Projects/core";
-//$base_url="/projects/core"; //remote
+$sector="grocery";//academy,hospital,retail,ecommerce,restaurant,hotel,garments,agro,grocery
+$app_name="UrbanMart Grocery";
+$base_url="/Projects/core/UrbanMart";
+//$base_url="/Farjana/Projects/core/UrbanMart"; //legacy local path (pre-junction)
 //$base_url="/intellect8"; //local
 $logo= $base_url."/img/logo.jpg";
 $template="ruangadmin"; //adminlte, deskapp, intellect,staradmin,edumin,ruangadmin 

@@ -21,15 +21,9 @@ class UserController{
             if(count($errors)==0){
                 $user=new User();
                 $user->name=$_POST["name"];
-                $user->role_id=$_POST["role_id"];
                 $user->password=password_hash($_POST["password"],PASSWORD_BCRYPT);
                 $user->email=$_POST["email"];
-                $user->full_name=$_POST["full_name"];
                 $user->created_at=$now;
-                $user->photo=upload($_FILES["photo"],"img",$user->name);
-                //$user->verify_code=$_POST["txtVerifyCode"];
-                //$user->inactive=isset($_POST["chkInactive"])?1:0;
-                $user->mobile=$_POST["mobile"];
                 $user->updated_at=$now;	
         
                 $user->save();
@@ -54,20 +48,15 @@ class UserController{
             $user=new User();
             $user->id=$_POST["id"];
             $user->name=$_POST["name"];
-            $user->role_id=$_POST["role_id"];
-            $user->password=password_hash($_POST["password"],PASSWORD_BCRYPT);
-            $user->email=$_POST["email"];
-            $user->full_name=$_POST["full_name"];
-            $user->created_at=$now;
-            if($_FILES["photo"]["name"]!=""){
-                $user->photo=File::upload($_FILES["photo"], "img",$user->name);
-            }else{
-                $user->photo=User::find($_POST["id"])->photo;
+            if(isset($_POST["password"]) && trim($_POST["password"]) !== '') {
+                $user->password=password_hash($_POST["password"],PASSWORD_BCRYPT);
+            } else {
+                $existing=User::find($_POST["id"]);
+                $user->password=$existing?$existing->password:'';
             }
-            $user->verify_code=$_POST["verify_code"];
-            $user->inactive=isset($_POST["inactive"])?1:0;
-            $user->mobile=$_POST["mobile"];
-    
+            $user->email=$_POST["email"];
+            $user->updated_at=$now;
+
             $user->update();
         }else{
              print_r($errors);
@@ -98,4 +87,3 @@ class UserController{
 
 
  }
-

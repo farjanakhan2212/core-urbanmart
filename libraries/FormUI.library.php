@@ -134,6 +134,15 @@ class Form{
        include(Form::path()."/date.php");
      }
 
+     public static function datetime($arg){
+      $arg["required"]=isset($arg["required"])?$arg["required"]:"";
+      $arg["placeholder"]=isset($arg["placeholder"])?$arg["placeholder"]:"";
+      $arg["value"]=isset($arg["value"])?$arg["value"]:"";     
+      $arg["checked"]=isset($arg["checked"])?$arg["checked"]:""; 
+      $arg["class"]=isset($arg["class"])?$arg["class"]:"form-control"; 
+       include(Form::path()."/datetime.php");
+     }
+
      public static function time($arg){
       $arg["required"]=isset($arg["required"])?$arg["required"]:"";
       $arg["placeholder"]=isset($arg["placeholder"])?$arg["placeholder"]:"";

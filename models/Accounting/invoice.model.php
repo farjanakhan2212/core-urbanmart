@@ -35,9 +35,36 @@ class Invoice extends Model implements JsonSerializable{
 	}
 	public static function delete($id){
 		global $db,$tx;
-		$db->query("delete from {$tx}invoices where id={$id}");
+		$id=(int)$id;
+		if($id<=0) return false;
+
+		$check=$db->prepare("select id from {$tx}invoices where id=? limit 1");
+		$check->bind_param("i",$id);
+		$check->execute();
+		$found=$check->get_result()->fetch_row();
+		$check->close();
+		if(!$found) return false;
+
+		$db->begin_transaction();
+		try {
+			$details=$db->prepare("delete from {$tx}invoice_details where invoice_id=?");
+			$details->bind_param("i",$id);
+			$details->execute();
+			$details->close();
+
+			$header=$db->prepare("delete from {$tx}invoices where id=?");
+			$header->bind_param("i",$id);
+			$header->execute();
+			$header->close();
+
+			$db->commit();
+			return true;
+		} catch (\Throwable $e) {
+			$db->rollback();
+			return false;
+		}
 	}
-	public function jsonSerialize(){
+	public function jsonSerialize(): mixed {
 		return get_object_vars($this);
 	}
 	public static function all(){
@@ -131,10 +158,13 @@ class Invoice extends Model implements JsonSerializable{
 		while($invoice=$result->fetch_object()){
 			$action_buttons = "";
 			if($action){
-				$action_buttons = "<td><div class='btn-group' style='display:flex;'>";
-				$action_buttons.= Event::button(["name"=>"show", "value"=>"Show", "class"=>"btn btn-info", "route"=>"invoice/show/$invoice->id"]);
-				$action_buttons.= Event::button(["name"=>"edit", "value"=>"Edit", "class"=>"btn btn-primary", "route"=>"invoice/edit/$invoice->id"]);
-				$action_buttons.= Event::button(["name"=>"delete", "value"=>"Delete", "class"=>"btn btn-danger", "route"=>"invoice/confirm/$invoice->id"]);
+				$action_buttons = "<td><div class='btn-group' style='display:flex;flex-wrap:wrap;gap:3px;'>";
+				$action_buttons.= Event::button(["name"=>"show", "value"=>"View", "class"=>"btn btn-info btn-sm", "route"=>"invoice/show/$invoice->id"]);
+				$action_buttons.= Event::button(["name"=>"print", "value"=>"Print", "class"=>"btn btn-secondary btn-sm", "route"=>"invoice/print/$invoice->id"]);
+				$action_buttons.= Event::button(["name"=>"pdf", "value"=>"PDF", "class"=>"btn btn-dark btn-sm", "route"=>"invoice/pdf/$invoice->id"]);
+				$action_buttons.= Event::button(["name"=>"download", "value"=>"Download", "class"=>"btn btn-success btn-sm", "route"=>"invoice/download/$invoice->id"]);
+				$action_buttons.= Event::button(["name"=>"edit", "value"=>"Edit", "class"=>"btn btn-primary btn-sm", "route"=>"invoice/edit/$invoice->id"]);
+				$action_buttons.= Event::button(["name"=>"delete", "value"=>"Delete", "class"=>"btn btn-danger btn-sm", "route"=>"invoice/confirm/$invoice->id"]);
 				$action_buttons.= "</div></td>";
 			}
 			$html.="<tr><td>$invoice->id</td><td>$invoice->customer_id</td><td>$invoice->created_at</td><td>$invoice->remark</td><td>$invoice->payment_term</td><td>$invoice->updated_at</td><td>$invoice->invoice_total</td><td>$invoice->paid_total</td><td>$invoice->previous_due</td> $action_buttons</tr>";

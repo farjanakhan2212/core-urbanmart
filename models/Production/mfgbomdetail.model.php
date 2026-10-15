@@ -31,7 +31,7 @@ class MfgBomDetail implements JsonSerializable{
 		global $db,$tx;
 		$db->query("delete from {$tx}mfg_bom_details where id={$id}");
 	}
-	public function jsonSerialize(){
+	public function jsonSerialize(): mixed {
 		return get_object_vars($this);
 	}
 	public static function all(){

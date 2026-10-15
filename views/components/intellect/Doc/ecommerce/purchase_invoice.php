@@ -152,7 +152,7 @@
 <script>
   $(function() {
 
-    let base_url=`http://farjana.intelsofts.com/Projects/core/api`;
+    let base_url=`<?= $base_url ?>/api`;
 
     const cart = new Cart("purchase");
     printCart();

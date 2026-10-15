@@ -19,10 +19,10 @@ check if origin exists:
 git remote -v 
 
 if it exists and is wrong:
-git remote set-url origin https://github.com/farjanakhan2212/Core-PHP.git
+git remote set-url origin https://github.com/farjanakhan2212/core-urbanmart.git
 
 if not exists:
-git remote add origin https://github.com/farjanakhan2212/Core-PHP.git
+git remote add origin https://github.com/farjanakhan2212/core-urbanmart.git
 
 Step7: pull remote changes if needed
 
@@ -36,7 +36,7 @@ git push -u origin main
 -u set main as default for future pushes
 
 Step9: check your repository
-https://github.com/farjanakhan2212/laravel-courier.git
+https://github.com/farjanakhan2212/core-urbanmart.git
 
 Step10: Optional-add README.md 
 

@@ -35,7 +35,7 @@ class EcomCoupon extends Model implements JsonSerializable{
 		global $db,$tx;
 		$db->query("delete from {$tx}ecom_coupons where id={$id}");
 	}
-	public function jsonSerialize(){
+	public function jsonSerialize(): mixed {
 		return get_object_vars($this);
 	}
 	public static function all(){

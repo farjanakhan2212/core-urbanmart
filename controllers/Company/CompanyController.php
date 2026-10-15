@@ -71,8 +71,10 @@ public function save($data,$file){
 	}
 }
 public function edit($id){
-		$this->view(Company::find($id));
-}
+		$record=Company::find($id);
+		if(!$record){ redirect(); return; }
+		$this->view($record);
+	}
 public function update($data,$file){
 	global $now;
 	if(isset($data->update)){
@@ -147,7 +149,8 @@ public function update($data,$file){
 		redirect();
 	}
 	public function show($id){
-		$this->view(Company::find($id));
+		$record=Company::find($id);
+		if($record){ $this->view($record); }else{ redirect(); }
 	}
 }
 ?>

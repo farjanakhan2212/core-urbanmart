@@ -43,7 +43,7 @@ class Company extends Model implements JsonSerializable{
 		global $db,$tx;
 		$db->query("delete from {$tx}company where id={$id}");
 	}
-	public function jsonSerialize(){
+	public function jsonSerialize(): mixed {
 		return get_object_vars($this);
 	}
 	public static function all(){
@@ -156,6 +156,9 @@ class Company extends Model implements JsonSerializable{
 		global $db,$tx,$base_url;
 		$result =$db->query("select id,name,mobile,bin,email,website,city,area,street_address,post_code,inactive,logo from {$tx}company where id={$id}");
 		$company=$result->fetch_object();
+		if(!$company){
+			return "<div class='alert alert-warning'>Company not found.</div>";
+		}
 		$html="<table class='table'>";
 		$html.="<tr><th colspan=\"2\">Company Show</th></tr>";
 		$html.="<tr><th>Id</th><td>$company->id</td></tr>";
