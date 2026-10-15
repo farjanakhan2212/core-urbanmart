@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # UrbanMart Grocery
 
 Grocery ERP/POS module for the **Core-PHP** framework (plain PHP + MySQL, no framework dependencies).
@@ -54,3 +55,7 @@ See [`docs/API_TESTING.md`](docs/API_TESTING.md) for the full endpoint reference
 - PHP 7.4+/8.x, MySQL/MariaDB, XAMPP or shared hosting
 - Styling: `ruangadmin` admin template (`$template` in app.config)
 - Time zone: `Asia/Dhaka`
+=======
+# core-urbanmart
+http://farjana.intelsofts.com/Projects/core/UrbanMart/
+>>>>>>> 39e3acac787464cd0b0dfacdce595f879ae4f991
